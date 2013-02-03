@@ -4,11 +4,13 @@ import re
 import sys
 import textwrap
 from setuptools import setup
+from __future__ import with_statement
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 def read(*parts):
-    return codecs.open(os.path.join(here, *parts), 'r').read()
+    with codecs.open(os.path.join(here, *parts), 'r') as f:
+        return f.read()
 
 def find_version(*file_paths):
     version_file = read(*file_paths)
