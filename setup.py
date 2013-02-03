@@ -1,10 +1,10 @@
+from __future__ import with_statement
 import codecs
 import os
 import re
 import sys
 import textwrap
 from setuptools import setup
-from __future__ import with_statement
 
 here = os.path.abspath(os.path.dirname(__file__))
 
