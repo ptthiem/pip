@@ -5,7 +5,6 @@ import re
 import sys
 import textwrap
 from setuptools import setup, find_packages
-from __future__ import with_statement
 
 here = os.path.abspath(os.path.dirname(__file__))
 
