@@ -10,6 +10,7 @@ from pip.basecommand import Command
 from pip.index import PackageFinder
 from pip.exceptions import InstallationError, CommandError
 from pip import cmdoptions
+from pip.util import is_post_distribute_merge
 
 
 class InstallCommand(Command):
@@ -230,6 +231,7 @@ class InstallCommand(Command):
         import setuptools
         if (options.use_user_site and
             requirement_set.has_editables and
+            not is_post_distribute_merge() and
             not getattr(setuptools, '_distribute', False)):
 
             raise InstallationError('--user --editable not supported with setuptools, use distribute')

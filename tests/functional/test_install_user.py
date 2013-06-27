@@ -9,6 +9,7 @@ from nose import SkipTest
 from tests.lib.local_repos import local_checkout
 from tests.lib import (tests_data, reset_env, run_pip, pyversion, assert_all_changes,
                             path_to_url, find_links, pip_install_local)
+from pip.util import is_post_distribute_merge
 
 
 patch_dist_in_site_packages = """
@@ -43,7 +44,7 @@ class Tests_UserSite:
         Test installing current directory ('.') into usersite using setuptools fails
         """
         # We don't try to use setuptools for 3.X.
-        if sys.version_info >= (3,):
+        if sys.version_info >= (3,) or is_post_distribute_merge():
             raise SkipTest()
         env = reset_env(use_distribute=False, system_site_packages=True)
         result = run_pip('install', '--user', '-e',

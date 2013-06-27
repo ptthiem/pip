@@ -37,6 +37,18 @@ def get_prog():
     return 'pip'
 
 
+def check_setuptools_version(version):
+    try:
+        import setuptools
+        return [int(x) for x in setuptools.__version__.split('.')] >= version
+    except (ImportError, AttributeError):
+        return False
+
+
+def is_post_distribute_merge():
+    return check_setuptools_version([0, 7])
+
+
 def rmtree(dir, ignore_errors=False):
     shutil.rmtree(dir, ignore_errors=ignore_errors,
                   onerror=rmtree_errorhandler)

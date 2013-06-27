@@ -348,7 +348,12 @@ class TestPipEnvironment(TestFileEnvironment):
         else:
             self.site_packages = self.lib/'site-packages'
         self.user_base_path = self.venv_path/'user'
-        self.user_site_path = self.venv_path/'user'/'lib'/self.lib.name/'site-packages'
+        if os.name == "nt":
+            self.user_site_path = (self.venv_path/'user'/
+                                                  ('Python' + sys.version[0] + sys.version[2])/
+                                                  'site-packages')
+        else:
+            self.user_site_path = self.venv_path/'user'/'lib'/self.lib.name/'site-packages'
 
         self.user_site = relpath(self.root_path, self.user_site_path)
 

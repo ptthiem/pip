@@ -42,6 +42,11 @@ class TestRequirementSet(object):
         req = InstallRequirement.from_line('simple')
         reqset.add_requirement(req)
         finder = PackageFinder([find_links], [])
+
+        #ops regex + win32 paths
+        if os.sep == "\\":
+            build_dir = build_dir.replace('\\', '\\\\')
+
         assert_raises_regexp(
             PreviousBuildDirError,
             "pip can't proceed with [\s\S]*%s[\s\S]*%s" % (req, build_dir),

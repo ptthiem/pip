@@ -1,4 +1,5 @@
 import os
+import sys
 import pip.backwardcompat
 from pip.backwardcompat import urllib, string_types, b, u, emailmessage
 
@@ -45,6 +46,11 @@ class CachedResponse(object):
                 break
             key, value = line.split(b(': '), 1)
             self.headers[u(key)] = u(value.strip())
+            if sys.version_info < (3,):
+                #self.headers get fed to setup functions that
+                #excepts an **HTTPMessage** not a email.message
+                #this should fix the problem.
+                self.headers.getheaders = self.headers.get_all
         for line in fp:
             self._body += line
         fp.close()

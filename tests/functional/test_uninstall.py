@@ -237,6 +237,10 @@ def test_uninstallpathset_non_local(mock_logger):
         mock_dist_is_local.return_value = False
         uninstall_set = UninstallPathSet(test_dist)
         uninstall_set.remove() #with no files added to set; which is the case when trying to remove non-local dists
+
+    if sys.platform == 'win32':
+        nonlocal_path = nonlocal_path[0].lower() + nonlocal_path[1:]
+
     mock_logger.notify.assert_any_call("Not uninstalling pip at %s, outside environment %s" % (nonlocal_path, sys.prefix)), mock_logger.notify.mock_calls
 
 

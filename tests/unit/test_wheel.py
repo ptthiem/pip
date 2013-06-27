@@ -5,6 +5,8 @@ from pip import wheel
 from pip.exceptions import InstallationError
 from pip.index import PackageFinder
 from tests.lib import assert_raises_regexp
+from nose.plugins.skip import SkipTest
+from pip.util import is_post_distribute_merge
 
 
 def test_uninstallation_paths():
@@ -55,6 +57,8 @@ class TestWheelSupported(object):
         """
         Test wheel_supported returns false, when distribute not installed
         """
+        if is_post_distribute_merge():
+            raise SkipTest
         mock_get_distribution.side_effect = self.raise_not_found
         assert not wheel.wheel_distribute_support()
 
@@ -63,6 +67,8 @@ class TestWheelSupported(object):
         """
         Test wheel_supported returns false, when distribute is installed, but req is not met
         """
+        if is_post_distribute_merge():
+            raise SkipTest
         mock_get_distribution.return_value = pkg_resources.Distribution(project_name='distribute', version='0.6.28')
         assert not wheel.wheel_distribute_support()
 
@@ -71,6 +77,8 @@ class TestWheelSupported(object):
         """
         Test the PackageFinder raises an error when wheel is not supported
         """
+        if is_post_distribute_merge():
+            raise SkipTest
         mock_get_distribution.side_effect = self.raise_not_found
         # on initialization
         assert_raises_regexp(InstallationError, 'wheel support', PackageFinder, [], [], use_wheel=True)

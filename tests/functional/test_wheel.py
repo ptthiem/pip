@@ -8,6 +8,7 @@ from nose import SkipTest
 from pip import wheel
 from pip.download import path_to_url as path_to_url_d
 from tests.lib import tests_data, reset_env, run_pip, pyversion_nodot, write_file, path_to_url, find_links, pip_install_local
+from pip.util import is_post_distribute_merge
 
 
 def test_pip_wheel_fails_without_wheel():
@@ -22,7 +23,7 @@ def test_pip_wheel_setuptools_fails():
     """
     Test 'pip wheel' fails with setuptools
     """
-    if sys.version_info >= (3, 0):
+    if sys.version_info >= (3, 0) or is_post_distribute_merge():
         # virtualenv installs distribute in py3
         raise SkipTest()
     env = reset_env(use_distribute=False)
